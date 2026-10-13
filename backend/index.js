@@ -122,6 +122,15 @@ app.get('/api/equipos/:id/jugadores', async (req, res) => {
   }
 });
 
+app.get('/api/equipos/:id/palmares', async (req, res) => {
+  try {
+    const [rows] = await db.query('SELECT * FROM palmares WHERE id_equipo = ?', [req.params.id]);
+    res.json(rows);
+  } catch (error) {
+    res.status(500).json({ error: 'Error al obtener el palmarés' });
+  }
+});
+
 app.get(/.*/, (req, res) => {
   res.sendFile(path.join(__dirname, '../frontend/index.html'));
 });

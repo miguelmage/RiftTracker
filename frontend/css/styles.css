@@ -456,3 +456,137 @@ body {
     padding: 0 1rem;
   }
 }
+
+/* ==========================================
+   TARJETAS DE LIGAS
+   ========================================== */
+
+#ligas-container {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+#ligas-container .card {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#ligas-container .card-logo {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  object-position: center 25%;
+  border-radius: 5px 5px 0 0;
+}
+
+#ligas-container .card h3 {
+  margin: 0.8rem 0 0.5rem;
+}
+
+#ligas-container .card p {
+  margin: 0 0 1rem;
+}
+
+/* Evitar que la navegación se corte */
+
+.navbar {
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.navbar nav {
+  flex-wrap: wrap;
+}
+
+/* Diseño adaptable */
+
+@media (max-width: 768px) {
+  #ligas-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  #ligas-container {
+    grid-template-columns: 1fr;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+    letter-spacing: 2px;
+  }
+}
+
+
+/* Tarjetas de ligas */
+#ligas-container .card {
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Zona reservada para los logos */
+#ligas-container .card-logo {
+    display: block;
+    width: 100%;
+    height: 150px;
+    padding: 22px;
+    object-fit: contain;
+    object-position: center;
+    box-sizing: border-box;
+    background: #101d29;
+}
+
+/* Nombre de la liga */
+#ligas-container .card h3 {
+    margin: 18px 0 8px;
+}
+
+/* Región */
+#ligas-container .card p {
+    margin: 0 0 20px;
+}
+
+@media (max-width: 768px) {
+    #ligas-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    #ligas-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* Logos de los equipos */
+.equipo-logo-container {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+
+.card-escudo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    display: block;
+    border-radius: 14px;
+    background: #0d1b26;
+    padding: 4px;
+    box-sizing: border-box;
+}
+
+.equipo-logo-fallback {
+  font-size: 30px;
+}
