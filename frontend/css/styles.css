@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;600;700&display=swap');
 
+/* ==========================================
+   1. VARIABLES & RESET GLOBAL
+   ========================================== */
 :root {
   --bg-dark: #09141e;
   --bg-card: #121f2b;
@@ -11,6 +14,8 @@
   --text-primary: #f0e6d2;
   --text-secondary: #a09b8c;
   --accent-blue: #03a9f4;
+  --danger-red: #e63946;
+  --danger-text: #ff6b6b;
 }
 
 * {
@@ -30,7 +35,9 @@ body {
   line-height: 1.6;
 }
 
-/* --- NAVBAR --- */
+/* ==========================================
+   2. NAVBAR & NAVEGACIÓN
+   ========================================== */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -59,16 +66,23 @@ body {
   text-shadow: 0 0 10px rgba(10, 200, 185, 0.5);
 }
 
+.navbar nav {
+  display: flex;
+  align-items: center;
+  gap: 1.8rem;
+}
+
 .navbar nav a {
   color: var(--text-secondary);
   text-decoration: none;
   font-weight: 600;
-  margin-left: 2rem;
   font-size: 0.95rem;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: all 0.3s ease;
   position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .navbar nav a:hover,
@@ -87,7 +101,63 @@ body {
   box-shadow: 0 0 8px var(--hextech-cyan);
 }
 
-/* --- HERO SECTION --- */
+/* --- Botón Iniciar Sesión en Navbar --- */
+.btn-login-nav {
+  border: 1px solid var(--border-gold);
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  color: var(--border-gold) !important;
+}
+
+.btn-login-nav:hover {
+  background-color: rgba(200, 170, 110, 0.15);
+  box-shadow: 0 0 10px rgba(200, 170, 110, 0.3);
+}
+
+/* --- Widget de Usuario Autenticado --- */
+.user-logged-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-badge {
+  color: var(--hextech-cyan);
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 1px solid var(--hextech-cyan);
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+  background: rgba(10, 200, 185, 0.1);
+  box-shadow: 0 0 8px rgba(10, 200, 185, 0.2);
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid var(--danger-red);
+  color: var(--danger-text);
+  padding: 0.35rem 0.85rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-logout:hover {
+  background: rgba(230, 57, 70, 0.2);
+  box-shadow: 0 0 10px rgba(230, 57, 70, 0.3);
+  color: #ffffff;
+}
+
+/* ==========================================
+   3. SELECTOR DE PERSONAJE
+   ========================================== */
 .hero {
   text-align: center;
   padding: 4rem 1.5rem 3rem;
@@ -115,7 +185,9 @@ body {
   margin: 0 auto;
 }
 
-/* --- CONTAINER & TITLES --- */
+/* ==========================================
+   4. CONTENEDORES Y TÍTULOS
+   ========================================== */
 .container {
   max-width: 1200px;
   margin: 3rem auto;
@@ -142,14 +214,15 @@ body {
   opacity: 0.4;
 }
 
-/* --- GRID SYSTEM --- */
+/* ==========================================
+   5. GRID & CARDS
+   ========================================== */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 1.8rem;
 }
 
-/* --- CARDS --- */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-gold-glow);
@@ -202,57 +275,9 @@ body {
   color: var(--hextech-cyan);
 }
 
-/* --- STATE INDICATORS --- */
-.loading {
-  color: var(--hextech-cyan);
-  font-style: italic;
-  font-size: 1.1rem;
-  text-align: center;
-  grid-column: 1 / -1;
-  padding: 2rem;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.equipos-seccion {
-  margin-top: 4rem;
-  animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(15px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 1rem 1.5rem;
-  }
-  .hero h1 {
-    font-size: 2rem;
-  }
-  .container {
-    padding: 0 1rem;
-  }
-}
-
-/* --- BOTÓN DE LOGIN EN NAVBAR --- */
-.btn-login-nav {
-  border: 1px solid var(--border-gold);
-  padding: 0.4rem 1rem;
-  border-radius: 4px;
-  color: var(--border-gold) !important;
-}
-
-.btn-login-nav:hover {
-  background-color: rgba(200, 170, 110, 0.15);
-  box-shadow: 0 0 10px rgba(200, 170, 110, 0.3);
-}
-
-/* --- LOGIN FORM --- */
+/* ==========================================
+   6. MÓDULO DE AUTENTICACIÓN (LOGIN / REGISTRO)
+   ========================================== */
 .login-container {
   display: flex;
   justify-content: center;
@@ -340,8 +365,8 @@ body {
 
 .error-banner {
   background: rgba(230, 57, 70, 0.2);
-  border: 1px solid #e63946;
-  color: #ff6b6b;
+  border: 1px solid var(--danger-red);
+  color: var(--danger-text);
   padding: 0.6rem 1rem;
   border-radius: 4px;
   font-size: 0.85rem;
@@ -373,4 +398,61 @@ body {
 .auth-switch a:hover {
   text-decoration: underline;
   color: var(--hextech-cyan);
+}
+
+/* ==========================================
+   7. ESTADOS Y ANIMACIONES
+   ========================================== */
+.loading {
+  color: var(--hextech-cyan);
+  font-style: italic;
+  font-size: 1.1rem;
+  text-align: center;
+  grid-column: 1 / -1;
+  padding: 2rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.equipos-seccion {
+  margin-top: 4rem;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================
+   8. RESPONSIVE DESIGN
+   ========================================== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 1rem 1.5rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navbar nav {
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
 }

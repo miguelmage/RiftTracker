@@ -1,0 +1,1 @@
+-- Insertar usuario de prueba (Email: admin@rifttracker.com | Password: password123)

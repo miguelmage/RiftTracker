@@ -1,4 +1,37 @@
+function actualizarNavUsuario() {
+    const usuarioGuardado = localStorage.getItem('usuario');
+    const nav = document.querySelector('.navbar nav');
+
+    if (usuarioGuardado && nav) {
+        const usuario = JSON.parse(usuarioGuardado);
+        
+        // Ocultar o eliminar el botón de login
+        const btnLogin = document.querySelector('.btn-login-nav');
+        if (btnLogin) {
+            btnLogin.remove();
+        }
+
+        // Crear badge de usuario y botón de salir
+        const userWidget = document.createElement('div');
+        userWidget.className = 'user-logged-info';
+        userWidget.innerHTML = `
+            <span class="user-badge">🛡️ ${usuario.username}</span>
+            <button id="btn-logout" class="btn-logout">Salir</button>
+        `;
+        nav.appendChild(userWidget);
+
+        // Evento para cerrar sesión y redirigir al inicio
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            localStorage.removeItem('token');
+            localStorage.removeItem('usuario');
+            window.location.href = 'index.html'; // Redirige a la página principal tras cerrar sesión
+        });
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    actualizarNavUsuario();
+
     const loginForm = document.getElementById('login-form');
     const registroForm = document.getElementById('registro-form');
     const errorMsg = document.getElementById('error-msg');
