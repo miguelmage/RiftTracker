@@ -1,0 +1,366 @@
+
+/* ==========================================
+   RIFTTRACKER - FICHA DE EQUIPO
+   ========================================== */
+
+body {
+    min-height: 100vh;
+    background: var(--bg-dark, #09141e);
+    color: var(--text-primary, #f0e6d2);
+}
+
+/* Navegación */
+
+.ficha-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px clamp(18px, 5vw, 70px);
+    background: rgba(9, 20, 30, 0.96);
+    border-bottom: 1px solid rgba(200, 170, 110, 0.35);
+}
+
+.ficha-logo {
+    color: var(--text-primary, #f0e6d2);
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+.ficha-logo span {
+    color: var(--border-gold, #c8aa6e);
+}
+
+.ficha-volver {
+    color: var(--text-secondary, #a09b8c);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.ficha-volver:hover {
+    color: var(--hextech-cyan, #0ac8b9);
+}
+
+/* Contenido principal */
+
+.ficha-equipo {
+    width: min(1100px, 100%);
+    margin: 0 auto;
+    padding: 35px 24px 25px;
+    box-sizing: border-box;
+}
+
+.ficha-estado {
+    padding: 12px 16px;
+    margin: 0 0 20px;
+    color: var(--text-secondary, #a09b8c);
+    background: var(--bg-card, #121f2b);
+    border-left: 3px solid var(--hextech-cyan, #0ac8b9);
+    border-radius: 4px;
+}
+
+.ficha-estado:empty {
+    display: none;
+}
+
+/* Cabecera */
+
+.ficha-cabecera {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 35px;
+    padding: clamp(24px, 5vw, 48px);
+    margin-bottom: 30px;
+    overflow: hidden;
+    background:
+        radial-gradient(
+            circle at 15% 50%,
+            rgba(10, 200, 185, 0.09),
+            transparent 45%
+        ),
+        var(--bg-card, #121f2b);
+    border: 1px solid var(--border-gold, #c8aa6e);
+    border-radius: 16px;
+    box-shadow: 0 0 24px rgba(200, 170, 110, 0.07);
+}
+
+.ficha-escudo-marco {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 190px;
+    height: 190px;
+    padding: 14px;
+    box-sizing: border-box;
+    background: var(--bg-dark, #09141e);
+    border: 1px solid rgba(200, 170, 110, 0.4);
+    border-radius: 24px;
+}
+
+.ficha-escudo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 16px;
+}
+
+.ficha-escudo[hidden] {
+    display: none;
+}
+
+.ficha-escudo-fallback {
+    font-size: 5rem;
+}
+
+.ficha-escudo-fallback[hidden] {
+    display: none;
+}
+
+.ficha-identidad {
+    min-width: 0;
+}
+
+.ficha-etiqueta {
+    margin: 0 0 10px;
+    color: var(--hextech-cyan, #0ac8b9);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.ficha-identidad h1 {
+    margin: 0 0 12px;
+    overflow-wrap: anywhere;
+    color: var(--text-primary, #f0e6d2);
+    font-family: 'Cinzel', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.15;
+}
+
+.ficha-liga {
+    margin: 0 0 10px;
+    color: var(--border-gold, #c8aa6e);
+    font-weight: 600;
+}
+
+.ficha-acronimo {
+    display: inline-block;
+    margin: 0;
+    padding: 5px 12px;
+    color: var(--text-secondary, #a09b8c);
+    background: rgba(9, 20, 30, 0.8);
+    border: 1px solid rgba(200, 170, 110, 0.25);
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+/* Bloques de contenido */
+
+.ficha-bloque {
+    padding: clamp(20px, 4vw, 32px);
+    margin-bottom: 25px;
+    background: var(--bg-card, #121f2b);
+    border: 1px solid rgba(200, 170, 110, 0.3);
+    border-radius: 12px;
+}
+
+.ficha-titulo-seccion {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding-bottom: 20px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid rgba(200, 170, 110, 0.2);
+}
+
+.ficha-icono {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    background: var(--bg-dark, #09141e);
+    border: 1px solid rgba(200, 170, 110, 0.4);
+    border-radius: 10px;
+    font-size: 1.5rem;
+}
+
+.ficha-titulo-seccion h2 {
+    margin: 0 0 5px;
+    color: var(--border-gold, #c8aa6e);
+    font-family: 'Cinzel', serif;
+    font-size: clamp(1.15rem, 3vw, 1.55rem);
+}
+
+.ficha-titulo-seccion p {
+    margin: 0;
+    color: var(--text-secondary, #a09b8c);
+    font-size: 0.9rem;
+}
+
+/* Palmarés */
+
+.ficha-palmares {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 14px;
+}
+
+.ficha-trofeo {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px;
+    background: var(--bg-dark, #09141e);
+    border: 1px solid rgba(200, 170, 110, 0.2);
+    border-radius: 10px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.ficha-trofeo:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-gold, #c8aa6e);
+}
+
+.ficha-trofeo-icono {
+    font-size: 1.8rem;
+}
+
+.ficha-trofeo h3 {
+    margin: 0 0 7px;
+    color: var(--text-primary, #f0e6d2);
+    font-size: 1rem;
+}
+
+.ficha-trofeo p {
+    margin: 0;
+    color: var(--text-secondary, #a09b8c);
+    font-size: 0.9rem;
+}
+
+/* Jugadores */
+
+.ficha-jugadores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+}
+
+.ficha-jugador {
+    padding: 20px;
+    background: var(--bg-dark, #09141e);
+    border: 1px solid rgba(200, 170, 110, 0.25);
+    border-radius: 10px;
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.ficha-jugador:hover {
+    transform: translateY(-3px);
+    border-color: var(--hextech-cyan, #0ac8b9);
+    box-shadow: 0 5px 18px rgba(10, 200, 185, 0.07);
+}
+
+.ficha-jugador-rol {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 5px 9px;
+    color: var(--hextech-cyan, #0ac8b9);
+    background: rgba(10, 200, 185, 0.08);
+    border: 1px solid rgba(10, 200, 185, 0.25);
+    border-radius: 5px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.ficha-jugador h3 {
+    margin: 0 0 12px;
+    color: var(--text-primary, #f0e6d2);
+    font-size: 1.2rem;
+    overflow-wrap: anywhere;
+}
+
+.ficha-jugador p {
+    margin: 7px 0 0;
+    color: var(--text-secondary, #a09b8c);
+    font-size: 0.9rem;
+}
+
+.ficha-jugador strong {
+    color: var(--text-primary, #f0e6d2);
+}
+
+.ficha-mensaje {
+    grid-column: 1 / -1;
+    padding: 18px;
+    margin: 0;
+    color: var(--text-secondary, #a09b8c);
+    background: var(--bg-dark, #09141e);
+    border-radius: 8px;
+}
+
+/* Pie de página */
+
+.ficha-pie {
+    padding: 20px 0 10px;
+    color: var(--text-secondary, #a09b8c);
+    font-size: 0.75rem;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+/* Responsive */
+
+@media (max-width: 650px) {
+    .ficha-nav {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 14px;
+        padding: 18px;
+    }
+
+    .ficha-equipo {
+        padding: 22px 15px;
+    }
+
+    .ficha-cabecera {
+        flex-direction: column;
+        gap: 22px;
+        padding: 25px 18px;
+        text-align: center;
+    }
+
+    .ficha-escudo-marco {
+        width: 150px;
+        height: 150px;
+    }
+
+    .ficha-etiqueta {
+        letter-spacing: 2px;
+    }
+
+    .ficha-palmares,
+    .ficha-jugadores {
+        grid-template-columns: 1fr;
+    }
+}
+
+.ficha-jugador-foto {
+    display: block;
+    width: 100%;
+    height: 180px;
+    margin-bottom: 16px;
+    object-fit: cover;
+    object-position: center top;
+    background: var(--bg-card, #121f2b);
+    border: 1px solid rgba(200, 170, 110, 0.3);
+    border-radius: 8px;
+}

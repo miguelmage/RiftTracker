@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ficha del equipo | RiftTracker</title>
+    <meta name="description" content="Consulta el roster y el palmarés de los equipos de League of Legends en RiftTracker.">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/equipo.css">
+</head>
+
+<body>
+    <header class="ficha-nav">
+        <a href="index.html" class="ficha-logo">
+            ⚡ RIFT<span>TRACKER</span>
+        </a>
+
+        <a href="index.html" class="ficha-volver">
+            <span aria-hidden="true">←</span> Volver a las ligas
+        </a>
+    </header>
+
+    <main class="ficha-equipo">
+        <p id="estado-carga" class="ficha-estado" role="status">
+            Cargando información del equipo...
+        </p>
+
+        <section class="ficha-cabecera" aria-labelledby="equipo-nombre">
+            <div class="ficha-escudo-marco">
+                <img
+                    id="equipo-escudo"
+                    class="ficha-escudo"
+                    src=""
+                    alt=""
+                    hidden
+                >
+                <span id="equipo-escudo-fallback" class="ficha-escudo-fallback">
+                    🛡️
+                </span>
+            </div>
+
+            <div class="ficha-identidad">
+                <p class="ficha-etiqueta">EQUIPO PROFESIONAL</p>
+                <h1 id="equipo-nombre">Cargando equipo...</h1>
+                <p id="equipo-liga" class="ficha-liga">League of Legends Esports</p>
+                <p id="equipo-acronimo" class="ficha-acronimo"></p>
+            </div>
+        </section>
+
+        <section class="ficha-bloque" aria-labelledby="palmares-titulo">
+            <div class="ficha-titulo-seccion">
+                <span class="ficha-icono" aria-hidden="true">🏆</span>
+                <div>
+                    <h2 id="palmares-titulo">Palmarés y trofeos</h2>
+                    <p>Los títulos registrados en la base de datos</p>
+                </div>
+            </div>
+
+            <div id="equipo-palmares" class="ficha-palmares">
+                <p class="ficha-mensaje">Cargando palmarés...</p>
+            </div>
+        </section>
+
+        <section class="ficha-bloque" aria-labelledby="roster-titulo">
+            <div class="ficha-titulo-seccion">
+                <span class="ficha-icono" aria-hidden="true">⚔️</span>
+                <div>
+                    <h2 id="roster-titulo">Roster</h2>
+                    <p>Jugadores registrados del equipo</p>
+                </div>
+            </div>
+
+            <div id="equipo-roster" class="ficha-jugadores">
+                <p class="ficha-mensaje">Cargando jugadores...</p>
+            </div>
+        </section>
+
+        <p class="ficha-pie">
+            RIFTTRACKER · ESTADÍSTICAS Y SEGUIMIENTO ESPORTS
+        </p>
+    </main>
+
+    <script src="js/equipo.js" defer></script>
+</body>
+</html>
