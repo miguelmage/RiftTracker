@@ -4,23 +4,28 @@ function actualizarNavUsuario() {
 
     if (usuarioGuardado && nav) {
         const usuario = JSON.parse(usuarioGuardado);
-        
-        // Ocultar o eliminar el botón de login
         const btnLogin = document.querySelector('.btn-login-nav');
         if (btnLogin) {
             btnLogin.remove();
         }
 
-        // Crear badge de usuario y botón de salir
         const userWidget = document.createElement('div');
         userWidget.className = 'user-logged-info';
-        userWidget.innerHTML = `
-            <span class="user-badge">🛡️ ${usuario.username}</span>
-            <button id="btn-logout" class="btn-logout">Salir</button>
-        `;
+
+        const enlacePerfil = document.createElement('a');
+        enlacePerfil.className = 'user-badge';
+        enlacePerfil.href = 'perfil.html';
+        enlacePerfil.textContent = `🛡️ ${usuario.username}`;
+
+        const btnLogout = document.createElement('button');
+        btnLogout.id = 'btn-logout';
+        btnLogout.className = 'btn-logout';
+        btnLogout.textContent = 'Salir';
+
+        userWidget.appendChild(enlacePerfil);
+        userWidget.appendChild(btnLogout);
         nav.appendChild(userWidget);
 
-        // Evento para cerrar sesión y redirigir al inicio
         document.getElementById('btn-logout').addEventListener('click', () => {
             localStorage.removeItem('token');
             localStorage.removeItem('usuario');

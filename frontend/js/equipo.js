@@ -112,7 +112,7 @@ async function cargarFichaEquipo() {
         const jugadores = await respuestaJugadores.json();
         const titulos = await respuestaPalmares.json();
 
-        mostrarPalmares(titulos, palmares);
+        mostrarPalmares(titulos, palmares, nombreLiga);
         mostrarRoster(jugadores, roster);
 
         estado.textContent = '';
@@ -134,39 +134,107 @@ async function cargarFichaEquipo() {
     }
 }
 
-function mostrarPalmares(titulos, contenedor) {
+
+
+function mostrarPalmares(titulos, contenedor, nombreLiga) {
     contenedor.innerHTML = '';
 
-    if (!Array.isArray(titulos) || titulos.length === 0) {
+    if (!Array.isArray(titulos)) {
         contenedor.appendChild(
-            crearMensaje('Todavía no hay títulos registrados.')
+            crearMensaje('No se pudieron consultar los títulos.')
         );
         return;
     }
 
-    titulos.forEach(titulo => {
+    // Detectar la competición regional del equipo
+    const liga = String(nombreLiga || '').toUpperCase();
+
+    let regional;
+
+    if (liga.includes('LCK')) {
+        regional = {
+            nombre: 'LCK',
+            imagen: '/assets/trofeos/lck.png',
+            coincidencias: ['lck']
+        };
+    } else if (liga.includes('LEC') || liga.includes('EMEA')) {
+        regional = {
+            nombre: 'LEC',
+            imagen: '/assets/trofeos/lec.png',
+            coincidencias: ['lec', 'emea']
+        };
+    } else if (liga.includes('LPL')) {
+        regional = {
+            nombre: 'LPL',
+            imagen: '/assets/trofeos/lpl.png',
+            coincidencias: ['lpl']
+        };
+    } else {
+        regional = {
+            nombre: liga || 'LIGA',
+            imagen: '',
+            coincidencias: [liga.toLowerCase()]
+        };
+    }
+
+    // Competiciones que aparecerán en el palmarés
+    const competiciones = [
+        {
+            nombre: 'WORLDS',
+            imagen: '/assets/trofeos/worlds.png',
+            coincidencias: ['world championship', 'worlds']
+        },
+        regional,
+        {
+            nombre: 'MSI',
+            imagen: '/assets/trofeos/msi.png',
+            coincidencias: [
+                'msi',
+                'mid-season invitational',
+                'mid season invitational'
+            ]
+        }
+    ];
+
+    competiciones.forEach(competicion => {
+        const total = titulos.filter(titulo => {
+            const nombreTitulo = String(
+                titulo.torneo || titulo.titulo || ''
+            ).toLowerCase().trim();
+
+            return competicion.coincidencias.some(nombre =>
+                nombreTitulo.includes(nombre)
+            );
+        }).length;
+
         const tarjeta = document.createElement('article');
-        tarjeta.className = 'ficha-trofeo';
+        tarjeta.className = 'ficha-trofeo-resumen';
 
-        const icono = document.createElement('span');
-        icono.className = 'ficha-trofeo-icono';
-        icono.textContent = '🏆';
-        icono.setAttribute('aria-hidden', 'true');
+        if (competicion.imagen) {
+            const imagen = document.createElement('img');
+            imagen.src = competicion.imagen;
+            imagen.alt = `Trofeo de ${competicion.nombre}`;
 
-        const contenido = document.createElement('div');
+            imagen.onerror = () => {
+                imagen.style.display = 'none';
+            };
 
-        const nombreTitulo = document.createElement('h3');
-        nombreTitulo.textContent =
-            titulo.torneo || titulo.titulo || 'Título';
+            tarjeta.appendChild(imagen);
+        }
 
-        const anio = document.createElement('p');
-        anio.textContent = `Año: ${titulo.anio || 'No especificado'}`;
+        const nombre = document.createElement('h3');
+        nombre.textContent = competicion.nombre;
 
-        contenido.append(nombreTitulo, anio);
-        tarjeta.append(icono, contenido);
+        const numero = document.createElement('span');
+        numero.className = 'ficha-trofeo-total';
+        numero.textContent = total;
+
+        tarjeta.append(nombre, numero);
         contenedor.appendChild(tarjeta);
     });
 }
+
+
 
 
 function mostrarRoster(jugadores, contenedor) {

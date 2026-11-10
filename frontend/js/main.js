@@ -75,15 +75,13 @@ async function cargarEquipos(ligaId, nombreLiga) {
         <p>Ver Roster y Palmarés</p>
     `;
 
-    
-    card.addEventListener('click', () => {
+
+      card.addEventListener('click', () => {
         const equipoId = equipo.id || equipo.id_equipo;
 
-        window.open(
-            `/equipo.html?id=${encodeURIComponent(equipoId)}`,
-            '_blank'
-        );
-    });
+        window.location.href =
+            `/equipo.html?id=${encodeURIComponent(equipoId)}`;
+      });
 
 
     container.appendChild(card);

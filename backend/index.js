@@ -91,9 +91,88 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-app.get('/api/perfil', verificarToken, (req, res) => {
-  res.json({ usuario: req.usuario });
+
+// ==========================================
+// PERFIL DE USUARIO
+// ==========================================
+
+// Obtener los datos actuales del usuario
+app.get('/api/perfil', verificarToken, async (req, res) => {
+  try {
+    const [usuarios] = await db.query(
+        `SELECT id, username, email, rol, created_at
+             FROM usuarios
+             WHERE id = ?`,
+        [req.usuario.id]
+    );
+
+    if (usuarios.length === 0) {
+      return res.status(404).json({
+        error: 'Usuario no encontrado'
+      });
+    }
+
+    res.json({ usuario: usuarios[0] });
+
+  } catch (error) {
+    console.error('Error al obtener el perfil:', error);
+    res.status(500).json({
+      error: 'Error al obtener el perfil'
+    });
+  }
 });
+
+// Actualizar nombre de usuario y correo electrónico
+app.put('/api/perfil', verificarToken, async (req, res) => {
+  const username = req.body.username?.trim();
+  const email = req.body.email?.trim().toLowerCase();
+
+  if (!username || !email) {
+    return res.status(400).json({
+      error: 'El nombre de usuario y el correo son obligatorios'
+    });
+  }
+
+  try {
+    // Comprobar si el correo pertenece a otra cuenta
+    const [existentes] = await db.query(
+        'SELECT id FROM usuarios WHERE email = ? AND id != ?',
+        [email, req.usuario.id]
+    );
+
+    if (existentes.length > 0) {
+      return res.status(409).json({
+        error: 'Ese correo ya está registrado'
+      });
+    }
+
+    await db.query(
+        `UPDATE usuarios
+             SET username = ?, email = ?
+             WHERE id = ?`,
+        [username, email, req.usuario.id]
+    );
+
+    const [usuarios] = await db.query(
+        `SELECT id, username, email, rol, created_at
+             FROM usuarios
+             WHERE id = ?`,
+        [req.usuario.id]
+    );
+
+    res.json({
+      mensaje: 'Perfil actualizado correctamente',
+      usuario: usuarios[0]
+    });
+
+  } catch (error) {
+    console.error('Error al actualizar el perfil:', error);
+    res.status(500).json({
+      error: 'Error al actualizar el perfil'
+    });
+  }
+});
+
 
 app.get('/api/ligas', async (req, res) => {
   try {

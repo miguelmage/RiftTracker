@@ -1,0 +1,230 @@
+.perfil-container {
+    width: 90%;
+    max-width: 1050px;
+    margin: 65px auto;
+    padding-bottom: 60px;
+}
+
+.perfil-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.perfil-etiqueta {
+    color: var(--hextech-cyan);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.perfil-header h1 {
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.perfil-header > p:last-child {
+    color: var(--text-secondary);
+    font-size: 15px;
+}
+
+.perfil-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-gold);
+    border-radius: 10px;
+    padding: 40px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.perfil-identidad {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+
+.perfil-avatar {
+    width: 85px;
+    height: 85px;
+    border: 2px solid var(--border-gold);
+    border-radius: 50%;
+    background: var(--bg-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 38px;
+    box-shadow: 0 0 18px rgba(200, 170, 110, 0.15);
+}
+
+.perfil-identidad h2 {
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 25px;
+    margin-bottom: 9px;
+}
+
+.perfil-rol {
+    display: inline-block;
+    color: var(--hextech-cyan);
+    border: 1px solid var(--hextech-cyan);
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.perfil-divider {
+    height: 1px;
+    background: rgba(200, 170, 110, 0.35);
+    margin: 35px 0;
+}
+
+.perfil-card h3 {
+    color: var(--border-gold);
+    font-family: 'Cinzel', serif;
+    font-size: 19px;
+    margin-bottom: 25px;
+}
+
+.perfil-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+}
+
+.perfil-field {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.perfil-field label {
+    color: var(--text-secondary);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.perfil-field input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    background: var(--bg-dark);
+    border: 1px solid rgba(200, 170, 110, 0.35);
+    border-radius: 5px;
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.perfil-field input:focus {
+    border-color: var(--hextech-cyan);
+    box-shadow: 0 0 8px rgba(10, 200, 185, 0.15);
+}
+
+.perfil-field input:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+.perfil-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-top: 35px;
+    flex-wrap: wrap;
+}
+
+.btn-guardar {
+    padding: 14px 25px;
+    background: transparent;
+    color: var(--hextech-cyan);
+    border: 1px solid var(--hextech-cyan);
+    border-radius: 5px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-guardar:hover {
+    background: var(--hextech-cyan);
+    color: var(--bg-dark);
+    box-shadow: 0 0 15px rgba(10, 200, 185, 0.3);
+}
+
+.btn-volver {
+    padding: 14px 20px;
+    color: var(--text-secondary);
+    border: 1px solid rgba(200, 170, 110, 0.4);
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    transition: 0.2s;
+}
+
+.btn-volver:hover {
+    color: var(--text-primary);
+    border-color: var(--border-gold);
+}
+
+.perfil-message {
+    padding: 13px 16px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.perfil-message.error {
+    color: #ff7777;
+    border: 1px solid #e63946;
+    background: rgba(230, 57, 70, 0.08);
+}
+
+.perfil-message.success {
+    color: var(--hextech-cyan);
+    border: 1px solid var(--hextech-cyan);
+    background: rgba(10, 200, 185, 0.08);
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 650px) {
+    .perfil-container {
+        width: 92%;
+        margin-top: 35px;
+    }
+
+    .perfil-card {
+        padding: 25px 18px;
+    }
+
+    .perfil-header h1 {
+        font-size: 30px;
+    }
+
+    .perfil-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-identidad h2 {
+        font-size: 19px;
+        overflow-wrap: anywhere;
+    }
+
+    .perfil-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .btn-guardar,
+    .btn-volver {
+        text-align: center;
+    }
+}
