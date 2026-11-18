@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador SoloQ | RiftTracker</title>
+    <meta name="description" content="Busca jugadores de League of Legends y consulta sus estadísticas clasificatorias en RiftTracker.">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/soloq.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<header class="soloq-nav">
+    <a href="index.html" class="soloq-logo">
+        ⚡ RIFT<span>TRACKER</span>
+    </a>
+    <nav class="soloq-menu">
+        <a href="index.html">Ligas</a>
+        <a href="soloq.html" class="active">Buscador SoloQ</a>
+    </nav>
+    <a href="login.html" class="soloq-login">
+        Iniciar sesión
+    </a>
+</header>
+<main class="soloq-main">
+    <section class="soloq-hero">
+        <div class="soloq-hero-content">
+                <span class="soloq-overline">
+                    <span class="soloq-status-dot"></span>LEAGUE OF LEGENDS · SOLO QUEUE TRACKER
+                </span>
+            <h1>
+                BUSCADOR <span>SOLOQ</span>
+            </h1>
+            <p>
+                Analiza el rendimiento de cualquier invocador. Consulta su rango, estadísticas y últimas partidas clasificatorias.
+            </p>
+        </div>
+        <div class="soloq-hero-decoration" aria-hidden="true">
+            <span class="decoration-line"></span>
+            <span class="decoration-rune">✧</span>
+            <span class="decoration-line"></span>
+        </div>
+    </section>
+    <section class="soloq-search-section">
+        <div class="soloq-section-heading">
+            <span class="section-number">01</span>
+            <div>
+                <h2>BUSCAR INVOCADOR</h2>
+                <p>Introduce el Riot ID de la cuenta que quieres consultar.</p>
+            </div>
+        </div>
+        <form id="soloq-search-form" class="soloq-search-card">
+            <div class="soloq-search-fields">
+                <div class="soloq-field">
+                    <label for="game-name">NOMBRE DEL JUGADOR</label>
+                    <div class="soloq-input-wrapper">
+                        <span class="input-symbol">⌕</span>
+                        <input type="text" id="game-name" name="gameName" placeholder="Ej. Faker" maxlength="64" autocomplete="off" required>
+                    </div>
+                </div>
+                <div class="soloq-field soloq-tag-field">
+                    <label for="tag-line">TAG</label>
+                    <div class="soloq-input-wrapper">
+                        <span class="input-hash">#</span>
+                        <input type="text" id="tag-line" name="tagLine" placeholder="KR1" maxlength="16" autocomplete="off" required>
+                    </div>
+                </div>
+                <div class="soloq-field soloq-region-field">
+                    <label for="region">SERVIDOR</label>
+                    <div class="soloq-input-wrapper">
+                        <select id="region">
+                            <option value="EUW1">Europa Oeste (EUW)</option>
+                            <option value="EUN1">Europa Nórdica y Este (EUNE)</option>
+                            <option value="KR">Corea (KR)</option>
+                            <option value="NA1">Norteamérica (NA)</option>
+                            <option value="BR1">Brasil (BR)</option>
+                            <option value="JP1">Japón (JP)</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" id="soloq-search-button" class="soloq-search-button">
+                    <span class="search-button-icon">⌕</span>
+                    BUSCAR
+                </button>
+            </div>
+            <p class="soloq-search-hint">
+                <span>ⓘ</span>
+                Utiliza el Riot ID actual del jugador: nombre y etiqueta.
+            </p>
+        </form>
+    </section>
+    <section id="soloq-status" class="soloq-status" aria-live="polite">
+        <div class="soloq-empty-state">
+            <div class="empty-state-icon">
+                <span>⌕</span>
+            </div>
+            <h2>ENCUENTRA A TU INVOCADOR</h2>
+            <p>
+                Introduce un Riot ID para consultar su perfil, rango clasificatorio y últimas partidas de SoloQ.
+            </p>
+            <div class="empty-state-decoration">
+                <span></span>
+                RIFTTRACKER · SOLOQ DATABASE
+                <span></span>
+            </div>
+        </div>
+    </section>
+    <section id="soloq-profile" class="soloq-profile hidden">
+        <div class="soloq-section-heading">
+            <span class="section-number">02</span>
+            <div>
+                <h2>PERFIL DEL INVOCADOR</h2>
+                <p>Información general y clasificación actual.</p>
+            </div>
+        </div>
+        <div class="soloq-profile-card">
+            <div class="profile-main">
+                <div class="profile-icon-wrapper">
+                    <img id="profile-icon" src="" alt="Icono del invocador">
+                    <span id="profile-level" class="profile-level">0</span>
+                </div>
+                <div class="profile-identity">
+                    <h2 id="profile-name">Jugador</h2>
+                    <p id="profile-tag">#TAG</p>
+                    <span id="profile-region" class="profile-region">
+                            EUW
+                        </span>
+                </div>
+            </div>
+            <div class="profile-ranked">
+                <div class="ranked-emblem">
+                    <img id="rank-icon" src="" alt="Emblema de rango">
+                </div>
+                <div class="ranked-information">
+                    <span class="ranked-label">CLASIFICACIÓN SOLOQ</span>
+                    <h3 id="rank-tier">Sin clasificación</h3>
+                    <p id="rank-points">0 LP</p>
+                </div>
+            </div>
+        </div>
+        <div class="soloq-section-heading stats-heading">
+            <span class="section-number">03</span>
+            <div>
+                <h2>RENDIMIENTO CLASIFICATORIO</h2>
+                <p>Resumen de las partidas clasificatorias analizadas.</p>
+            </div>
+        </div>
+        <div class="soloq-stats-grid">
+            <article class="soloq-stat-card">
+                <span class="stat-icon">⚔</span>
+                <span class="stat-label">PARTIDAS</span>
+                <strong id="stat-games">0</strong>
+                <span class="stat-description">Partidas analizadas</span>
+            </article>
+            <article class="soloq-stat-card">
+                <span class="stat-icon">🏆</span>
+                <span class="stat-label">VICTORIAS</span>
+                <strong id="stat-wins">0</strong>
+                <span class="stat-description">Partidas ganadas</span>
+            </article>
+            <article class="soloq-stat-card">
+                <span class="stat-icon">✕</span>
+                <span class="stat-label">DERROTAS</span>
+                <strong id="stat-losses">0</strong>
+                <span class="stat-description">Partidas perdidas</span>
+            </article>
+            <article class="soloq-stat-card">
+                <span class="stat-icon">◈</span>
+                <span class="stat-label">WINRATE</span>
+                <strong id="stat-winrate">0%</strong>
+                <span class="stat-description">Porcentaje de victorias</span>
+            </article>
+            <article class="soloq-stat-card">
+                <span class="stat-icon">✧</span>
+                <span class="stat-label">KDA MEDIO</span>
+                <strong id="stat-kda">0.00</strong>
+                <span class="stat-description">Ratio de rendimiento</span>
+            </article>
+        </div>
+        <div class="soloq-section-heading history-heading">
+            <span class="section-number">04</span>
+            <div>
+                <h2>ÚLTIMAS PARTIDAS</h2>
+                <p>Historial reciente de partidas clasificatorias SoloQ.</p>
+            </div>
+        </div>
+        <div id="soloq-matches" class="soloq-matches">
+            <p class="soloq-placeholder">
+                Todavía no hay partidas para mostrar.
+            </p>
+        </div>
+    </section>
+    <footer class="soloq-footer">
+        <span>⚡ RIFTTRACKER</span>
+        <p>ESTADÍSTICAS Y SEGUIMIENTO ESPORTS</p>
+        <small>
+            League of Legends es una marca registrada de Riot Games. RiftTracker no está respaldado por Riot Games.
+        </small>
+    </footer>
+</main>
+<script src="js/soloq.js" defer></script>
+</body>
+</html>
