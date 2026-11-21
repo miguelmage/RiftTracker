@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración | RiftTracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="admin-page">
+<header class="navbar">
+    <div class="logo">⚡ RIFT<span>TRACKER</span></div>
+    <nav>
+        <a href="index.html">Ligas</a>
+        <a href="soloq.html">Buscador SoloQ</a>
+        <a href="admin.html" id="admin-link" class="admin-link active" style="display: none;">Administración</a>
+    </nav>
+</header>
+<main class="admin-container">
+    <section class="admin-heading">
+        <div>
+            <span class="admin-eyebrow">RIFTTRACKER CONTROL CENTER</span>
+            <h1>Panel de <span>administración</span></h1>
+            <p>Gestiona las ligas, equipos y jugadores de la base de datos.</p>
+        </div>
+        <div class="admin-status">
+            <span class="status-dot"></span>
+            Administrador
+        </div>
+    </section>
+    <section class="admin-tabs">
+        <button class="admin-tab active" data-section="ligas">Ligas</button>
+        <button class="admin-tab" data-section="equipos">Equipos</button>
+        <button class="admin-tab" data-section="jugadores">Jugadores</button>
+    </section>
+    <section class="admin-content">
+        <div class="admin-section-heading">
+            <div>
+                <h2 id="section-title">Gestión de ligas</h2>
+                <p id="section-description">Administra las competiciones disponibles.</p>
+            </div>
+            <button class="btn-create" id="btn-create">+ Añadir liga</button>
+        </div>
+        <div class="admin-alert" id="admin-alert" hidden></div>
+        <div class="admin-form-container" id="form-container" hidden>
+            <div class="form-heading">
+                <h3 id="form-title">Nueva liga</h3>
+                <button type="button" class="btn-close-form" id="btn-close-form">×</button>
+            </div>
+            <form id="admin-form">
+                <div class="form-grid" id="form-fields"></div>
+                <div class="form-actions">
+                    <button type="button" class="btn-cancel" id="btn-cancel">Cancelar</button>
+                    <button type="submit" class="btn-save" id="btn-save">Guardar</button>
+                </div>
+            </form>
+        </div>
+        <div class="admin-table-container">
+            <div class="table-loading" id="table-loading">Cargando datos...</div>
+            <div class="table-empty" id="table-empty" hidden>No hay registros disponibles.</div>
+            <div class="table-scroll">
+                <table class="admin-table">
+                    <thead id="table-head"></thead>
+                    <tbody id="table-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</main>
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

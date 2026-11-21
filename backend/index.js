@@ -33,8 +33,35 @@ const verificarToken = (req, res, next) => {
   }
 };
 
+const verificarAdmin = async (req, res, next) => {
+  try {
+    const [usuarios] = await db.query(
+        'SELECT id, username, email, rol FROM usuarios WHERE id = ?',
+        [req.usuario.id]
+    );
+
+    if (usuarios.length === 0) {
+      return res.status(401).json({error: 'Usuario no encontrado'});
+    }
+
+    if (usuarios[0].rol !== 'ADMIN') {
+      return res.status(403).json({error: 'No tienes permisos de administrador'});
+    }
+
+    req.usuarioActual = usuarios[0];
+    next();
+
+  } catch (error) {
+    console.error('Error verificando administrador:', error);
+
+    res.status(500).json({error: 'Error al verificar permisos'});
+  }
+};
+
 app.post('/api/registro', async (req, res) => {
-  const { username, email, password } = req.body;
+  const username = String(req.body.username || '').trim();
+  const email = String(req.body.email || '').trim().toLowerCase();
+  const password = req.body.password;
   if (!username || !email || !password) {
     return res.status(400).json({ error: 'Todos los campos son obligatorios' });
   }
@@ -48,7 +75,7 @@ app.post('/api/registro', async (req, res) => {
     const password_hash = await bcrypt.hash(password, 10);
     const [result] = await db.query(
         'INSERT INTO usuarios (username, email, password_hash, rol) VALUES (?, ?, ?, ?)',
-        [username, email, password_hash, 'user']
+        [username, email, password_hash, 'USER']
     );
 
     res.status(201).json({ mensaje: 'Usuario registrado con éxito', userId: result.insertId });
@@ -58,7 +85,8 @@ app.post('/api/registro', async (req, res) => {
 });
 
 app.post('/api/login', async (req, res) => {
-  const { email, password } = req.body;
+  const email = String(req.body.email || '').trim().toLowerCase();
+  const password = req.body.password;
   if (!email || !password) {
     return res.status(400).json({ error: 'Email y contraseña requeridos' });
   }
@@ -203,6 +231,299 @@ app.get('/api/equipos/:id/palmares', async (req, res) => {
   }
 });
 
+
+app.get('/api/admin/ligas', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const [ligas] = await db.query('SELECT * FROM ligas ORDER BY id');
+    res.json(ligas);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener las ligas' });
+  }
+});
+
+app.post('/api/admin/ligas', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const { nombre, region, logo_url } = req.body;
+
+    if (!nombre || !region) {
+      return res.status(400).json({ error: 'Nombre y región son obligatorios' });
+    }
+
+    const [resultado] = await db.query(
+        'INSERT INTO ligas (nombre, region, logo_url) VALUES (?, ?, ?)',
+        [nombre, region, logo_url || null]
+    );
+
+    res.status(201).json({
+      mensaje: 'Liga creada correctamente',
+      id: resultado.insertId
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al crear la liga' });
+  }
+});
+
+app.put('/api/admin/ligas/:id', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const { nombre, region, logo_url } = req.body;
+    const { id } = req.params;
+
+    if (!nombre || !region) {
+      return res.status(400).json({ error: 'Nombre y región son obligatorios' });
+    }
+
+    const [resultado] = await db.query(
+        'UPDATE ligas SET nombre = ?, region = ?, logo_url = ? WHERE id = ?',
+        [nombre, region, logo_url || null, id]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Liga no encontrada' });
+    }
+
+    res.json({ mensaje: 'Liga actualizada correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al actualizar la liga' });
+  }
+});
+
+app.delete('/api/admin/ligas/:id', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const [resultado] = await db.query(
+        'DELETE FROM ligas WHERE id = ?',
+        [req.params.id]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Liga no encontrada' });
+    }
+
+    res.json({ mensaje: 'Liga eliminada correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'No se pudo eliminar la liga. Comprueba si tiene equipos asociados.'
+    });
+  }
+});
+
+app.get('/api/admin/equipos', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const [equipos] = await db.query(`
+            SELECT equipos.*, ligas.nombre AS liga_nombre
+            FROM equipos
+            LEFT JOIN ligas ON equipos.id_liga = ligas.id
+            ORDER BY equipos.id
+        `);
+
+    res.json(equipos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los equipos' });
+  }
+});
+
+app.post('/api/admin/equipos', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const { nombre, acronimo, logo_url, historia, id_liga } = req.body;
+
+    if (!nombre || !acronimo || !id_liga) {
+      return res.status(400).json({
+        error: 'Nombre, acrónimo y liga son obligatorios'
+      });
+    }
+
+    const [resultado] = await db.query(
+        `INSERT INTO equipos (nombre, acronimo, logo_url, historia, id_liga)
+             VALUES (?, ?, ?, ?, ?)`,
+        [nombre, acronimo, logo_url || null, historia || null, id_liga]
+    );
+
+    res.status(201).json({
+      mensaje: 'Equipo creado correctamente',
+      id: resultado.insertId
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al crear el equipo' });
+  }
+});
+
+app.put('/api/admin/equipos/:id', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const { nombre, acronimo, logo_url, historia, id_liga } = req.body;
+
+    if (!nombre || !acronimo || !id_liga) {
+      return res.status(400).json({
+        error: 'Nombre, acrónimo y liga son obligatorios'
+      });
+    }
+
+    const [resultado] = await db.query(
+        `UPDATE equipos
+             SET nombre = ?, acronimo = ?, logo_url = ?, historia = ?, id_liga = ?
+             WHERE id = ?`,
+        [nombre, acronimo, logo_url || null, historia || null, id_liga, req.params.id]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Equipo no encontrado' });
+    }
+
+    res.json({ mensaje: 'Equipo actualizado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al actualizar el equipo' });
+  }
+});
+
+app.delete('/api/admin/equipos/:id', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const [resultado] = await db.query(
+        'DELETE FROM equipos WHERE id = ?',
+        [req.params.id]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Equipo no encontrado' });
+    }
+
+    res.json({ mensaje: 'Equipo eliminado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'No se pudo eliminar el equipo. Comprueba sus jugadores y palmarés.'
+    });
+  }
+});
+
+app.get('/api/admin/jugadores', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const [jugadores] = await db.query(`
+            SELECT jugadores.*, equipos.nombre AS equipo_nombre
+            FROM jugadores
+            LEFT JOIN equipos ON jugadores.id_equipo = equipos.id
+            ORDER BY jugadores.id
+        `);
+
+    res.json(jugadores);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al obtener los jugadores' });
+  }
+});
+
+app.post('/api/admin/jugadores', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const {
+      nickname,
+      nombre_real,
+      rol,
+      foto_url,
+      game_name,
+      tag_line,
+      id_equipo
+    } = req.body;
+
+    if (!nickname || !rol || !id_equipo) {
+      return res.status(400).json({
+        error: 'Nickname, rol y equipo son obligatorios'
+      });
+    }
+
+    const [resultado] = await db.query(
+        `INSERT INTO jugadores
+             (nickname, nombre_real, rol, foto_url, game_name, tag_line, id_equipo)
+             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [
+          nickname,
+          nombre_real || null,
+          rol,
+          foto_url || null,
+          game_name || null,
+          tag_line || null,
+          id_equipo
+        ]
+    );
+
+    res.status(201).json({
+      mensaje: 'Jugador creado correctamente',
+      id: resultado.insertId
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al crear el jugador' });
+  }
+});
+
+app.put('/api/admin/jugadores/:id', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const {
+      nickname,
+      nombre_real,
+      rol,
+      foto_url,
+      game_name,
+      tag_line,
+      id_equipo
+    } = req.body;
+
+    if (!nickname || !rol || !id_equipo) {
+      return res.status(400).json({
+        error: 'Nickname, rol y equipo son obligatorios'
+      });
+    }
+
+    const [resultado] = await db.query(
+        `UPDATE jugadores
+             SET nickname = ?, nombre_real = ?, rol = ?, foto_url = ?,
+                 game_name = ?, tag_line = ?, id_equipo = ?
+             WHERE id = ?`,
+        [
+          nickname,
+          nombre_real || null,
+          rol,
+          foto_url || null,
+          game_name || null,
+          tag_line || null,
+          id_equipo,
+          req.params.id
+        ]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Jugador no encontrado' });
+    }
+
+    res.json({ mensaje: 'Jugador actualizado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al actualizar el jugador' });
+  }
+});
+
+app.delete('/api/admin/jugadores/:id', verificarToken, verificarAdmin, async (req, res) => {
+  try {
+    const [resultado] = await db.query(
+        'DELETE FROM jugadores WHERE id = ?',
+        [req.params.id]
+    );
+
+    if (resultado.affectedRows === 0) {
+      return res.status(404).json({ error: 'Jugador no encontrado' });
+    }
+
+    res.json({ mensaje: 'Jugador eliminado correctamente' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error al eliminar el jugador' });
+  }
+});
+
+
 const regionesRiot = {
   EUW1: { plataforma: 'euw1', regional: 'europe' },
   EUN1: { plataforma: 'eun1', regional: 'europe' },
@@ -315,7 +636,7 @@ app.get('/api/soloq/buscar', async (req, res) => {
     const summoner = await consultarRiot(
         `https://${configuracion.plataforma}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${encodeURIComponent(cuenta.puuid)}`
     );
-    
+
     const ligas = await consultarRiot(
         `https://${configuracion.plataforma}.api.riotgames.com/lol/league/v4/entries/by-puuid/${encodeURIComponent(cuenta.puuid)}`
     );

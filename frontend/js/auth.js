@@ -1,37 +1,77 @@
+
 function actualizarNavUsuario() {
+    const token = localStorage.getItem('token');
     const usuarioGuardado = localStorage.getItem('usuario');
     const nav = document.querySelector('.navbar nav');
 
-    if (usuarioGuardado && nav) {
-        const usuario = JSON.parse(usuarioGuardado);
-        const btnLogin = document.querySelector('.btn-login-nav');
-        if (btnLogin) {
-            btnLogin.remove();
+    if (!nav) return;
+
+    nav.querySelector('.btn-login-nav')?.remove();
+    nav.querySelector('.user-logged-info')?.remove();
+
+    const adminLink = document.getElementById('admin-link');
+
+    if (!token || !usuarioGuardado) {
+        if (adminLink) {
+            adminLink.style.display = 'none';
         }
 
-        const userWidget = document.createElement('div');
-        userWidget.className = 'user-logged-info';
-
-        const enlacePerfil = document.createElement('a');
-        enlacePerfil.className = 'user-badge';
-        enlacePerfil.href = 'perfil.html';
-        enlacePerfil.textContent = `🛡️ ${usuario.username}`;
-
-        const btnLogout = document.createElement('button');
-        btnLogout.id = 'btn-logout';
-        btnLogout.className = 'btn-logout';
-        btnLogout.textContent = 'Salir';
-
-        userWidget.appendChild(enlacePerfil);
-        userWidget.appendChild(btnLogout);
-        nav.appendChild(userWidget);
-
-        document.getElementById('btn-logout').addEventListener('click', () => {
-            localStorage.removeItem('token');
-            localStorage.removeItem('usuario');
-            window.location.href = 'index.html'; // Redirige a la página principal tras cerrar sesión
-        });
+        const login = document.createElement('a');
+        login.href = 'login.html';
+        login.className = 'btn-login-nav';
+        login.textContent = 'Iniciar sesión';
+        nav.appendChild(login);
+        return;
     }
+
+    let usuario;
+
+    try {
+        usuario = JSON.parse(usuarioGuardado);
+    } catch {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+
+        if (adminLink) {
+            adminLink.style.display = 'none';
+        }
+
+        const login = document.createElement('a');
+        login.href = 'login.html';
+        login.className = 'btn-login-nav';
+        login.textContent = 'Iniciar sesión';
+        nav.appendChild(login);
+        return;
+    }
+
+    const esAdmin = String(usuario.rol).toUpperCase() === 'ADMIN';
+
+    if (adminLink) {
+        adminLink.style.display = esAdmin ? 'inline-flex' : 'none';
+    }
+
+    const userWidget = document.createElement('div');
+    userWidget.className = 'user-logged-info';
+
+    const enlacePerfil = document.createElement('a');
+    enlacePerfil.className = 'user-badge';
+    enlacePerfil.href = 'perfil.html';
+    enlacePerfil.textContent = `🛡️ ${usuario.username || 'Usuario'}`;
+
+    const btnLogout = document.createElement('button');
+    btnLogout.id = 'btn-logout';
+    btnLogout.className = 'btn-logout';
+    btnLogout.textContent = 'Salir';
+
+    btnLogout.addEventListener('click', () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        window.location.href = 'index.html';
+    });
+
+    userWidget.appendChild(enlacePerfil);
+    userWidget.appendChild(btnLogout);
+    nav.appendChild(userWidget);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -52,7 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('/api/login', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({ email, password })
                 });
 
@@ -86,7 +128,9 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const response = await fetch('/api/registro', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify({ username, email, password })
                 });
 
@@ -96,7 +140,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error(data.error || 'Error al registrar usuario');
                 }
 
-                if (errorMsg) errorMsg.classList.add('hidden');
+                if (errorMsg) {
+                    errorMsg.classList.add('hidden');
+                }
 
                 if (successMsg) {
                     successMsg.textContent = '¡Cuenta creada con éxito! Redirigiendo al login...';
@@ -106,14 +152,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     window.location.href = 'login.html';
                 }, 1800);
-
             } catch (err) {
-                if (successMsg) successMsg.classList.add('hidden');
+                if (successMsg) {
+                    successMsg.classList.add('hidden');
+                }
+
                 if (errorMsg) {
                     errorMsg.textContent = err.message;
                     errorMsg.classList.remove('hidden');
                 }
             }
         });
+    }
+});
+
+window.addEventListener('storage', (event) => {
+    if (event.key === 'token' || event.key === 'usuario') {
+        actualizarNavUsuario();
     }
 });
