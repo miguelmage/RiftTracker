@@ -1,15 +1,8 @@
-
-/* ==========================================
-   RIFTTRACKER - FICHA DE EQUIPO
-   ========================================== */
-
 body {
     min-height: 100vh;
     background: var(--bg-dark, #09141e);
     color: var(--text-primary, #f0e6d2);
 }
-
-/* Navegación */
 
 .ficha-nav {
     display: flex;
@@ -44,8 +37,6 @@ body {
     color: var(--hextech-cyan, #0ac8b9);
 }
 
-/* Contenido principal */
-
 .ficha-equipo {
     width: min(1100px, 100%);
     margin: 0 auto;
@@ -65,8 +56,6 @@ body {
 .ficha-estado:empty {
     display: none;
 }
-
-/* Cabecera */
 
 .ficha-cabecera {
     position: relative;
@@ -159,8 +148,6 @@ body {
     font-size: 0.85rem;
 }
 
-/* Bloques de contenido */
-
 .ficha-bloque {
     padding: clamp(20px, 4vw, 32px);
     margin-bottom: 25px;
@@ -203,11 +190,6 @@ body {
     font-size: 0.9rem;
 }
 
-
-/* ==========================================
-   PALMARÉS Y TROFEOS
-========================================== */
-
 .ficha-palmares-resumen {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -236,9 +218,6 @@ body {
     box-shadow: 0 5px 20px rgba(200, 170, 110, 0.08);
 }
 
-/* Imagen del trofeo */
-
-
 #equipo-palmares .ficha-trofeo-resumen img {
     display: block;
     width: 65px !important;
@@ -255,9 +234,6 @@ body {
     flex-shrink: 0;
 }
 
-
-/* Nombre de la competición */
-
 .ficha-trofeo-resumen h3 {
     flex: 1;
     margin: 0;
@@ -268,8 +244,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* Número de títulos */
-
 .ficha-trofeo-resumen .ficha-trofeo-total {
     color: var(--border-gold, #c8aa6e);
     font-family: 'Cinzel', serif;
@@ -278,8 +252,6 @@ body {
     line-height: 1;
     flex-shrink: 0;
 }
-
-/* Jugadores */
 
 .ficha-jugadores {
     display: grid;
@@ -343,8 +315,6 @@ body {
     border-radius: 8px;
 }
 
-/* Pie de página */
-
 .ficha-pie {
     padding: 20px 0 10px;
     color: var(--text-secondary, #a09b8c);
@@ -352,8 +322,6 @@ body {
     letter-spacing: 2px;
     text-align: center;
 }
-
-/* Responsive */
 
 @media (max-width: 650px) {
     .ficha-nav {

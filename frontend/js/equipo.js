@@ -146,7 +146,6 @@ function mostrarPalmares(titulos, contenedor, nombreLiga) {
         return;
     }
 
-    // Detectar la competición regional del equipo
     const liga = String(nombreLiga || '').toUpperCase();
 
     let regional;
@@ -177,7 +176,6 @@ function mostrarPalmares(titulos, contenedor, nombreLiga) {
         };
     }
 
-    // Competiciones que aparecerán en el palmarés
     const competiciones = [
         {
             nombre: 'WORLDS',

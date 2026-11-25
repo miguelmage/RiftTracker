@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;600;700&display=swap');
 
-/* ==========================================
-   1. VARIABLES & RESET GLOBAL
-   ========================================== */
 :root {
   --bg-dark: #09141e;
   --bg-card: #121f2b;
@@ -35,9 +32,6 @@ body {
   line-height: 1.6;
 }
 
-/* ==========================================
-   2. NAVBAR & NAVEGACIÓN
-   ========================================== */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -101,7 +95,6 @@ body {
   box-shadow: 0 0 8px var(--hextech-cyan);
 }
 
-/* --- Botón Iniciar Sesión en Navbar --- */
 .btn-login-nav {
   border: 1px solid var(--border-gold);
   padding: 0.4rem 1rem;
@@ -114,7 +107,6 @@ body {
   box-shadow: 0 0 10px rgba(200, 170, 110, 0.3);
 }
 
-/* --- Widget de Usuario Autenticado --- */
 .user-logged-info {
   display: flex;
   align-items: center;
@@ -155,9 +147,6 @@ body {
   color: #ffffff;
 }
 
-/* ==========================================
-   3. SELECTOR DE PERSONAJE
-   ========================================== */
 .hero {
   text-align: center;
   padding: 4rem 1.5rem 3rem;
@@ -185,9 +174,6 @@ body {
   margin: 0 auto;
 }
 
-/* ==========================================
-   4. CONTENEDORES Y TÍTULOS
-   ========================================== */
 .container {
   max-width: 1200px;
   margin: 3rem auto;
@@ -214,9 +200,6 @@ body {
   opacity: 0.4;
 }
 
-/* ==========================================
-   5. GRID & CARDS
-   ========================================== */
 .grid-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -275,9 +258,6 @@ body {
   color: var(--hextech-cyan);
 }
 
-/* ==========================================
-   6. MÓDULO DE AUTENTICACIÓN (LOGIN / REGISTRO)
-   ========================================== */
 .login-container {
   display: flex;
   justify-content: center;
@@ -400,9 +380,6 @@ body {
   color: var(--hextech-cyan);
 }
 
-/* ==========================================
-   7. ESTADOS Y ANIMACIONES
-   ========================================== */
 .loading {
   color: var(--hextech-cyan);
   font-style: italic;
@@ -432,9 +409,6 @@ body {
   }
 }
 
-/* ==========================================
-   8. RESPONSIVE DESIGN
-   ========================================== */
 @media (max-width: 768px) {
   .navbar {
     padding: 1rem 1.5rem;
@@ -456,10 +430,6 @@ body {
     padding: 0 1rem;
   }
 }
-
-/* ==========================================
-   TARJETAS DE LIGAS
-   ========================================== */
 
 #ligas-container {
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -490,8 +460,6 @@ body {
   margin: 0 0 1rem;
 }
 
-/* Evitar que la navegación se corte */
-
 .navbar {
   gap: 1.5rem;
   flex-wrap: wrap;
@@ -500,8 +468,6 @@ body {
 .navbar nav {
   flex-wrap: wrap;
 }
-
-/* Diseño adaptable */
 
 @media (max-width: 768px) {
   #ligas-container {
@@ -520,8 +486,6 @@ body {
   }
 }
 
-
-/* Tarjetas de ligas */
 #ligas-container .card {
     padding: 0;
     overflow: hidden;
@@ -531,7 +495,6 @@ body {
     text-align: center;
 }
 
-/* Zona reservada para los logos */
 #ligas-container .card-logo {
     display: block;
     width: 100%;
@@ -543,12 +506,10 @@ body {
     background: #101d29;
 }
 
-/* Nombre de la liga */
 #ligas-container .card h3 {
     margin: 18px 0 8px;
 }
 
-/* Región */
 #ligas-container .card p {
     margin: 0 0 20px;
 }
@@ -565,8 +526,6 @@ body {
     }
 }
 
-
-/* Logos de los equipos */
 .equipo-logo-container {
   height: 64px;
   display: flex;
