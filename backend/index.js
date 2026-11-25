@@ -73,12 +73,12 @@ app.post('/api/registro', async (req, res) => {
     }
 
     const password_hash = await bcrypt.hash(password, 10);
-    const [result] = await db.query(
-        'INSERT INTO usuarios (username, email, password_hash, rol) VALUES (?, ?, ?, ?)',
-        [username, email, password_hash, 'USER']
-    );
+    const [ultimoUsuario] = await db.query('SELECT COALESCE(MAX(id), 0) + 1 AS nuevoId FROM usuarios');
+    const nuevoId = ultimoUsuario[0].nuevoId;
 
-    res.status(201).json({ mensaje: 'Usuario registrado con éxito', userId: result.insertId });
+    await db.query('INSERT INTO usuarios (id, username, email, password_hash, rol) VALUES (?, ?, ?, ?, ?)', [nuevoId, username, email, password_hash, 'USER']);
+
+    res.status(201).json({mensaje: 'Usuario registrado con éxito', userId: nuevoId});
   } catch (error) {
     console.error('ERROR AL REGISTRAR USUARIO:', error);
     res.status(500).json({error: 'Error al registrar usuario'});
