@@ -80,7 +80,8 @@ app.post('/api/registro', async (req, res) => {
 
     res.status(201).json({ mensaje: 'Usuario registrado con éxito', userId: result.insertId });
   } catch (error) {
-    res.status(500).json({ error: 'Error al registrar usuario' });
+    console.error('ERROR AL REGISTRAR USUARIO:', error);
+    res.status(500).json({error: 'Error al registrar usuario'});
   }
 });
 
